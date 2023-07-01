@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -11,7 +12,6 @@ class UserController extends Controller
     {
         // Retrieve all users from the database
         $users = User::all();
-
         // Return a view to display the users
         return view('users.index', compact('users'));
     }
@@ -20,12 +20,45 @@ class UserController extends Controller
     {
         return view('users.create');
     }
+    
+    public function add_product()
+    {
+        return view('users.add_product');
+    }
+
+    public function assign(Request $productName, Request $userName)
+    {
+        $user = User::where('name', $userName)->first();
+        $product = Product::where('name', $productName)->first();
+        if ($user == null){
+            echo "Invalid user name";
+            return;
+        } 
+        else if ($product == null){
+            echo "Invalid product name";
+            return;
+        }
+        $user->products()->save($product);
+    }
+
+    // public function show_user_products(){
+
+    //     $products = $user->get_products();
+    // }
 
 
     public function store(Request $request)
     {
-        // Store a new user in the database based on the request data
+        $validatedData = $request->validate([
+            'name' => 'required|string',
+        ]);
 
-        // Redirect back to the index page or display a success message
+        $user = new User;
+        $user->name = $validatedData['name'];
+
+        $user->save();
+
+
+        return redirect('/');
     }
 }
