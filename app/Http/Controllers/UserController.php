@@ -40,7 +40,6 @@ class UserController extends Controller
         
         $user->save();
         
-        
         return redirect('/');
     }
     
@@ -48,7 +47,6 @@ class UserController extends Controller
     // * ADD PRODUCT TO USER
     public function add_product()
     {   
-        
         $users = User::all();
         $products = Product::all();
         return view('users.add_product', compact('users', 'products'));
@@ -56,7 +54,6 @@ class UserController extends Controller
 
     public function assign(Request $request)
     {
-
         $productName = $request->input('productName');
         $userName = $request->input('userName');
 

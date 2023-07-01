@@ -1,35 +1,203 @@
 
-# Basics of Laravel
+# Laravel with DB
 
-## > Multiple routes
+## > Connection
 
-![routes](/img/routes.png)
+`web.php` route to check connection:
+```php
+Route::get('/dbconn', function(){
+    return view('dbconn');
+});
+```
+`dbconn.blade.php` view:
+```php
+<?php
 
-## > Get and Post requests
+    if(DB::connection()->getPdo()){
+        echo "Successfully connected to DB and DB name is " .DB::connection()->getDatabaseName();
+    }
 
-![get_req](/img/get_req.png)
-### With parameter
-![get_param](/img/get_param.png)
+?>
+```
+
+![connection](/img/connected.png)
 
 
-## > Controllers
+## Navigation
+`home.blade.php` view has links to all other views
+```php
+<li><a href="/users/create">        Create Users</a></li>
+<li><a href="/users">               List of Users</a></li>
+<li><a href="/users/add_product">   Add a Product to a User</a></li>
+<br>
 
-![controllers](/img/controllers.png)
+<li><a href="/products/create">     Create a Product</a></li>
+<li><a href="/products">            List of Products</a></li>
+<br>
 
-## > Model
+<li><a href="/dbconn">              Check DB connection</a></li>
+```
+`web.php` handles `get` requests
+```php
+// * USERS
+Route::get('/users', [UserController::class, 'index']);
+Route::get('/users/create', [UserController::class, 'create']);
+Route::get('/users/add_product', [UserController::class, 'add_product']);
 
-![model](/img/model.png)
+// * PRODUCTS
+Route::get('/products', [ProductController::class, 'index']);
+Route::get('/products/create', [ProductController::class, 'create']);
 
-## > Blade templates
+// * DB CONNECTION
+Route::get('/dbconn', function(){
+    return view('dbconn');
+});
 
-### Array & Foreach
+// * HOME
+Route::get('/', function () {
+    return view('home');
+});
+```
 
-![foreach](/img/blade_foreach.png)
+Controllers have functions called by those `get` requests that redirect to appropriate view:
+```php
+public function create()
+{
+    return view('users.create');
+}
+// etc...
+```
 
-### If & Extend
 
-![if_extend](/img/blade_if_extend.png)
+## User Creation
+`users/create.blade.php` form for creating new user:
+```php
+<form action="/users/store" method="POST">
+    @csrf
+    <label for="name">User Name:</label>
+    <input type="text" name="name" id="name">
+    <!-- Add more form fields as needed -->
 
+    <button type="submit">Create User</button>
+</form>
+```
+
+`UserController.php` function for storing new user:
+```php
+public function store(Request $request)
+{
+    $validatedData = $request->validate([
+        'name' => 'required|string',
+    ]);
+    
+    $user = new User;
+    $user->name = $validatedData['name'];
+    
+    $user->save();
+    
+    return redirect('/');
+}
+```
+![user_create](img/user_create.png)
+
+![user_list](img/user_list.png)
+
+![user_entry](img/user_entry.png)
+
+
+## Product Creation
+
+`products/create.blade.php` form for creating new product:
+```php
+<form action="/products/store" method="POST">
+    @csrf
+    <label for="name">Product Name:</label>
+    <input type="text" name="name" id="name">
+    <label for="price">Price:</label>
+    <input type="text" name="price" id="price">
+    <!-- Add more form fields as needed -->
+
+    <button type="submit">Create Product</button>
+</form>
+```
+`ProductController.php` function for storing new user:
+```php
+public function store(Request $request)
+{
+    $validatedData = $request->validate([
+        'name' => 'required|string',
+        'price' => 'required|int',
+    ]);
+    
+    $product = new Product();
+    $product->name = $validatedData['name'];
+    $product->price = $validatedData['price'];
+    
+    $product->save();
+    
+    return redirect('/products');
+}
+```
+
+![product_create](img/product_create.png)
+
+![product_list](img/product_list.png)
+
+![product_entry](img/product_entry.png)
+
+
+## Assigning a user to a product
+`add_product.blade.php` view for choosing a user and a product:
+```php
+<form action="/users/assign" method="POST">
+    @csrf
+    <label for="userName">User Name:</label>
+    <input type="text" name="userName" id="userName">
+    @foreach ($users as $user)
+    <li>
+        {{ $user->name }}
+    </li>
+    @endforeach
+
+    <label for="productName">Product Name:</label>
+    <input type="text" name="productName" id="productName">
+    @foreach ($products as $product)
+    <li>
+        {{ $product->name }}
+        {{ $product->price }}
+    </li>
+    @endforeach
+    <button type="submit">Assign</button>
+</form>
+```
+
+`UserController.php` assigns chosen `user_id` to a chosen product:
+```php
+public function assign(Request $request)
+{
+    $productName = $request->input('productName');
+    $userName = $request->input('userName');
+
+    $user = User::where('name', $userName)->first();
+    $product = Product::where('name', $productName)->first();
+    if ($user == null) {
+        echo "Invalid user name";
+        return;
+    } else if ($product == null) {
+        echo "Invalid product name";
+        return;
+    }
+    $user_id = $user->id;
+    $product->user_id = $user_id;
+    $product->update();
+
+    return redirect('/');
+}
+``` 
+
+![product_assign](img/product_assign.png)
+
+![product_assign_check](img/product_assign_check.png)
 
 # Laravel credits
 

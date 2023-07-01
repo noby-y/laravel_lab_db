@@ -17,7 +17,5 @@
         {{ $product->price }}
     </li>
     @endforeach
-
-
     <button type="submit">Assign</button>
 </form>

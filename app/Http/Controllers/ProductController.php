@@ -34,7 +34,6 @@ class ProductController extends Controller
 
         $product->save();
 
-
         return redirect('/products');
     }
 }

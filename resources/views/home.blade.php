@@ -9,15 +9,16 @@
 
 <body>
     <ul>
-        <li><a href="/users/create">Create Users</a></li>
-        <li><a href="/users">List of Users</a></li>
-        <li><a href="/users/add_product">Add a Product to a User</a></li>
+        <li><a href="/users/create">        Create Users</a></li>
+        <li><a href="/users">               List of Users</a></li>
+        <li><a href="/users/add_product">   Add a Product to a User</a></li>
         <br>
         
-        <li><a href="/products/create">Create a Product</a></li>
-        <li><a href="/products">List of Products</a></li>
+        <li><a href="/products/create">     Create a Product</a></li>
+        <li><a href="/products">            List of Products</a></li>
         <br>
         
+        <li><a href="/dbconn">              Check DB connection</a></li>
         
     </ul>
 </body>

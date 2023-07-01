@@ -16,12 +16,12 @@ class User extends Authenticatable
     }
 
     
-    public function get_products()
-    {
-        $user = User::find(1);
-        $products = $user->products;
-        return $products;
-    }
+    // public function get_products()
+    // {
+    //     $user = User::find(1);
+    //     $products = $user->products;
+    //     return $products;
+    // }
 
 
     use HasApiTokens, HasFactory, Notifiable;
