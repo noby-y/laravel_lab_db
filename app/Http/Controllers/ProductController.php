@@ -16,21 +16,25 @@ class ProductController extends Controller
         return view('products.index', compact('products'));
     }
 
-    public function show($id)
+    public function create()
     {
-        // Retrieve the product with the given ID from the database
-        $product = Product::find($id);
-
-        // Return a view to display the product
-        return view('products.show', compact('product'));
+        return view('products.create');
     }
 
     public function store(Request $request)
     {
-        // Store a new product in the database based on the request data
-        // ...
+        $validatedData = $request->validate([
+            'name' => 'required|string',
+            'price' => 'required|int',
+        ]);
 
-        // Redirect back to the index page or display a success message
-        // ...
+        $product = new Product();
+        $product->name = $validatedData['name'];
+        $product->price = $validatedData['price'];
+
+        $product->save();
+
+
+        return redirect('/products');
     }
 }

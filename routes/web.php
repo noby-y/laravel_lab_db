@@ -19,12 +19,26 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// * USERS
 Route::get('/users', [UserController::class, 'index']);
+
 Route::get('/users/create', [UserController::class, 'create']);
-Route::post('/users', [UserController::class, 'store']);
+Route::post('/users/store', [UserController::class, 'store']);
 
+Route::get('/users/add_product', [UserController::class, 'add_product']);
+Route::post('/users/assign', [UserController::class, 'assign']);
+
+
+// * PRODUCTS
 Route::get('/products', [ProductController::class, 'index']);
-Route::get('/products/{id}', [ProductController::class, 'show']);
-Route::post('/products', [ProductController::class, 'store']);
 
+Route::get('/products/create', [ProductController::class, 'create']);
+Route::post('/products/store', [ProductController::class, 'store']);
 
+Route::get('/dbconn', function(){
+    return view('dbconn');
+});
+
+Route::get('/', function () {
+    return view('home');
+});
