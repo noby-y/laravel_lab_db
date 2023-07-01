@@ -4,3 +4,4 @@
     <li>{{ $user->name }}</li>
     @endforeach
 </ul>
+

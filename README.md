@@ -1,3 +1,38 @@
+
+# Basics of Laravel
+
+## > Multiple routes
+
+![routes](/img/routes.png)
+
+## > Get and Post requests
+
+![get_req](/img/get_req.png)
+### With parameter
+![get_param](/img/get_param.png)
+
+
+## > Controllers
+
+![controllers](/img/controllers.png)
+
+## > Model
+
+![model](/img/model.png)
+
+## > Blade templates
+
+### Array & Foreach
+
+![foreach](/img/blade_foreach.png)
+
+### If & Extend
+
+![if_extend](/img/blade_if_extend.png)
+
+
+# Laravel credits
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
