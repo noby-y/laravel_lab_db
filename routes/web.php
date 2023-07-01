@@ -15,9 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
 
 // * USERS
 Route::get('/users', [UserController::class, 'index']);
@@ -34,6 +35,9 @@ Route::get('/products', [ProductController::class, 'index']);
 
 Route::get('/products/create', [ProductController::class, 'create']);
 Route::post('/products/store', [ProductController::class, 'store']);
+
+
+
 
 Route::get('/dbconn', function(){
     return view('dbconn');
